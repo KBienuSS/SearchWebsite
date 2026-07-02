@@ -9,9 +9,9 @@ adsRouter.get('/ads',AdsController.getAll);
 adsRouter.get('/ads/:id',AdsController.getById);
 adsRouter.get('/ads/search/:searchPhrase',AdsController.getByPhrase);
 // only for log-in users
-adsRouter.post('/ads',authMiddleware, imageUpload.single('image'), AdsController.create);
+adsRouter.post('/ads-add',authMiddleware, imageUpload.single('image'), AdsController.create);
 // check if the owner of ad is also person who is log-in
-adsRouter.delete('/ads/:id',authMiddleware, isOwnerMiddleware, AdsController.remove);
-adsRouter.put('/ads/:id',authMiddleware, isOwnerMiddleware, imageUpload.single('image'), AdsController.update);
+adsRouter.delete('/ads-delete/:id',authMiddleware, isOwnerMiddleware, AdsController.remove);
+adsRouter.put('/ads-update/:id',authMiddleware, isOwnerMiddleware, imageUpload.single('image'), AdsController.update);
 
 module.exports = adsRouter;
