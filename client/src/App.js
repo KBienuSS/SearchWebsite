@@ -1,23 +1,29 @@
 import { Routes, Route } from 'react-router-dom';
+import MainLayout from './components/layout/MainLayout/MainLayout';
+import HomePage from './components/pages/HomePage/HomePage';
+import RegisterPage from './components/pages/RegisterPage/RegisterPage';
+import LoginPage from './components/pages/LoginPage/LoginPage';
 
 function App() {
   return (
-    <main>
+    <MainLayout>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/ads/:id" element={<Ad />} />
-        <Route path="/ads/search/:searchPhrase" element={<Search />} />
-        <Route path="/ads-add" element={<Add />} />
-        <Route path="/ads-delete/:id" element={<Delete />} />
-        <Route path="/ads-update/:id" element={<Update />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/user" element={<User />} />
-        <Route element={<NotFound />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/ads/:id" element={<HomePage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
-    </main>
+    </MainLayout>
   );
 }
 
 export default App;
+//        <Route path="/ads/:id" element={<Ad />} />
+  //      <Route path="/ads/search/:searchPhrase" element={<Ads />} />
+    //    <Route path="/ads-add" element={<Add />} />
+//        <Route path="/ads-delete/:id" element={<Delete />} />
+  //      <Route path="/ads-update/:id" element={<Update />} />
+
+        //<Route path="/logout" element={<Logout />} />
+//        <Route path="/user" element={<User />} />
+  //      <Route element={<NotFound />} />

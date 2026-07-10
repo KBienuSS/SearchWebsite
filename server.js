@@ -7,7 +7,6 @@ const mongoose = require('mongoose');
 
 
 const adsRoutes = require('./routes/ads.routes');
-const usersRoutes = require('./routes/users.routes');
 const authRoutes = require('./routes/auth.routes');
 
 async function startServer() {
@@ -29,7 +28,7 @@ async function startServer() {
 
     //add routes
     app.use(session({
-      secret: 'xyz567',
+      secret: process.env.SESSION_SECRET, 
       cookie: {
         secure: process.env.NODE_ENV == 'production',
       },
@@ -38,7 +37,6 @@ async function startServer() {
       store: MongoStore.create({ client: mongoose.connection.getClient() })
     })); 
     app.use('/api', adsRoutes);
-    app.use('/api', usersRoutes);
     app.use('/auth', authRoutes);
     
 

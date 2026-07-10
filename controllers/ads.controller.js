@@ -36,6 +36,7 @@ exports.getByPhrase = async (req, res) => {
 exports.create = async (req, res) => {
   const { title, content, date, image, price, location, seller } = req.body;
   const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
+  const imageFileName = req.file.filename
   if(title &&
       typeof title === 'string' &&
       content && 
@@ -46,7 +47,7 @@ exports.create = async (req, res) => {
       seller){
 
     try {
-      const newAd = new Ad({ title, content, date, image, price, location, seller });
+      const newAd = new Ad({ title, content, date, imageFileName , price, location, seller });
       await newAd.save();
       res.status(201).json(newAd);
     } catch(err) {

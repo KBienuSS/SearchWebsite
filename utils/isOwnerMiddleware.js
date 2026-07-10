@@ -8,7 +8,7 @@ const isOwner = async (req, res, next) => {
       return res.status(404).json({ error: 'Ad not found' });
     }
 
-    if (ad.seller.toString() !== req.session.userId) {
+    if (ad.seller.toString() !== req.session.user.id) {
       return res.status(403).json({ error: 'You are not the owner of this ad' });
     }
 
