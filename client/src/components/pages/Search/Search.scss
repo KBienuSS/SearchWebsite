@@ -1,0 +1,18 @@
+.search-page {
+  .search-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #212529;
+    word-break: break-word;
+  }
+
+  .search-spinner-wrapper {
+    padding: 3rem 0;
+  }
+
+  .search-empty-state {
+    text-align: center;
+    padding: 3rem 0;
+    color: #6c757d;
+  }
+}

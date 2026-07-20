@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Input, Button, InputGroup } from 'reactstrap';
+import { Form, InputGroup } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import './SearchForm.scss';
 
 const SearchForm = () => {
@@ -17,13 +18,13 @@ const SearchForm = () => {
   return (
     <Form onSubmit={handleSubmit} className="search-form">
       <InputGroup className="search-input-group">
-        <Input
+        <Form.Control
           type="text"
           placeholder="Search ads..."
           value={phrase}
           onChange={(e) => setPhrase(e.target.value)}
         />
-        <Button color="primary" type="submit">Search</Button>
+        <Button variant="primary" type="submit">Search</Button>
       </InputGroup>
     </Form>
   );

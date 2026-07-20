@@ -1,16 +1,15 @@
-.add-ad-page {
-  .add-ad-card {
+.ad-edit-page {
+  .ad-edit-card {
     border-radius: 1rem;
-    background-color: #fff;
   }
 
-  .add-ad-title {
+  .ad-edit-title {
     font-weight: 700;
     font-size: 1.75rem;
     color: #212529;
   }
 
-  .add-ad-form {
+  .ad-edit-form {
     .form-label {
       font-weight: 600;
       font-size: 0.875rem;
@@ -22,7 +21,6 @@
       border-radius: 0.5rem;
       padding: 0.6rem 0.9rem;
       border: 1px solid #dee2e6;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
       &:focus {
         border-color: #0d6efd;
@@ -31,10 +29,17 @@
     }
   }
 
-  .add-ad-submit {
+  .ad-edit-preview {
+    width: 140px;
+    height: 105px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    border: 1px solid #dee2e6;
+  }
+
+  .ad-edit-submit {
     padding: 0.7rem;
     border-radius: 0.5rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
   }
 }

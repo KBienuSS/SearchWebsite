@@ -1,0 +1,102 @@
+.ad-page {
+  .ad-card {
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .ad-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #f1f3f5;
+    height: 100%;
+    min-height: 320px;
+  }
+
+  .ad-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ad-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #212529;
+  }
+
+  .ad-price {
+    font-size: 1rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 0.5rem;
+    align-self: flex-start;
+  }
+
+  .ad-meta {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+
+  .ad-meta-separator {
+    margin: 0 0.5rem;
+  }
+
+  .ad-description {
+    white-space: pre-wrap;
+    color: #343a40;
+    line-height: 1.6;
+  }
+
+  .ad-seller {
+    border-top: 1px solid #e9ecef;
+    padding-top: 1rem;
+  }
+
+  .ad-seller-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #adb5bd;
+    font-weight: 600;
+  }
+
+  .ad-seller-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #dee2e6;
+  }
+
+  .ad-seller-login {
+    font-weight: 600;
+    color: #212529;
+  }
+
+  .ad-seller-phone {
+    font-size: 0.85rem;
+    color: #6c757d;
+  }
+}
+
+.ad-seller-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #dee2e6;
+  flex-shrink: 0;
+}
+
+.ad-seller-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0d6efd;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}

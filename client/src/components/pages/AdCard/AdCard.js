@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import './AdCard.scss';
+import { IMGS_URL } from '../../../config';
 
 const AdCard = ({ ad }) => (
   <Card className="h-100">
     <div className="ad-image-wrapper">
       <img
-        src={`/uploads/${ad.image}`}
+        src={IMGS_URL + ad.image}
         alt={ad.title}
         className="ad-image"
       />

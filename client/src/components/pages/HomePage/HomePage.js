@@ -1,53 +1,55 @@
-import { useState, useEffect } from 'react';
-import { Container, Row, Col, Spinner } from 'reactstrap';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import AdCard from '../AdCard/AdCard';
 import SearchForm from '../../features/SearchForm/SearchForm';
+import { fetchAds, getAds, getAdsLoading, getAdsError } from '../../../redux/adsRedux';
 import './HomePage.scss';
 
 const HomePage = () => {
-  const [ads, setAds] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+
+  const ads = useSelector(getAds);
+  const loading = useSelector(getAdsLoading);
+  const error = useSelector(getAdsError);
 
   useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch('/api/ads');
-        if (!response.ok) throw new Error('Failed to fetch ads');
-        const data = await response.json();
-        const sorted = data.sort((a, b) => new Date(b.date) - new Date(a.date));
-        setAds(sorted);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    dispatch(fetchAds());
+  }, [dispatch]);
 
-    fetchAds();
-  }, []);
+  const sortedAds = useMemo(() => {
+    return [...ads].sort((a, b) => new Date(b.date) - new Date(a.date));
+  }, [ads]);
 
   return (
-    <Container className="home-page">
-      <h1>All Ads</h1>
-      <SearchForm />
+    <Container className="home-page py-5">
+      <h1 className="home-title mb-4">All Ads</h1>
+
+      <div className="home-search-wrapper mb-5">
+        <SearchForm />
+      </div>
 
       {loading && (
         <div className="home-spinner-wrapper">
-          <Spinner color="primary" />
+          <Spinner animation="border" variant="primary" />
         </div>
       )}
 
-      {error && <p className="home-error">{error}</p>}
-
-      {!loading && !error && ads.length === 0 && (
-        <p className="home-empty-state">No ads to display!</p>
+      {!loading && error && (
+        <Alert variant="danger">{error}</Alert>
       )}
 
-      {!loading && !error && ads.length > 0 && (
-        <Row className="ads-grid">
-          {ads.map((ad) => (
-            <Col key={ad._id} md={4} className="mb-4">
+      {!loading && !error && sortedAds.length === 0 && (
+        <div className="home-empty-state">
+          <p>No ads to display!</p>
+          <span>Be the first to post one.</span>
+        </div>
+      )}
+
+      {!loading && !error && sortedAds.length > 0 && (
+        <Row className="ads-grid g-4">
+          {sortedAds.map((ad) => (
+            <Col key={ad._id} xs={12} sm={6} md={4}>
               <AdCard ad={ad} />
             </Col>
           ))}

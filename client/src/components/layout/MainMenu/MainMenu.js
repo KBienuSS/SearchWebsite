@@ -1,17 +1,13 @@
-import {
-  Navbar,
-  Nav,
-  NavItem,
-  NavLink
-} from 'reactstrap';
+import { Navbar,Nav,NavItem,NavLink } from 'react-bootstrap';
 import './MainMenu.scss';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getUser } from '../../../redux/usersRedux';
 
 const MainMenu = () => {
-  const [isLoggedIn, setIsLogged] = useState(false);
+  const isLoggedIn = useSelector(getUser);
 
   return (
-    <Navbar expand="md" container={false} className="main-navbar animated fadeIn" light>
+    <Navbar expand="md" className="main-navbar animated fadeIn">
       <Nav className="main-nav-left" navbar>
         <NavItem>
           <NavLink href="/" className="nav-link-custom">Home</NavLink>
@@ -19,17 +15,25 @@ const MainMenu = () => {
       </Nav>
 
       <Nav className="main-nav-right align-items-center" navbar>
-        <NavItem>
-          <NavLink href="/login" className="nav-link-custom">Sign In</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink href="/register" className="nav-link-cta">Sign Up</NavLink>
-        </NavItem>
-        {isLoggedIn && (
+        {isLoggedIn ? (
+          <>
+          <NavItem>
+            <NavLink href="/ad/add" className="nav-link-custom">Add New</NavLink>
+          </NavItem>
           <NavItem>
             <NavLink href="/logout" className="nav-link-danger">Sign Out</NavLink>
           </NavItem>
-        )}
+          </>
+        ) : (
+        <>
+          <NavItem>
+            <NavLink href="/login" className="nav-link-custom">Sign In</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="/register" className="nav-link-cta">Sign Up</NavLink>
+          </NavItem> 
+        </>
+          )}
       </Nav>
     </Navbar>
   );
