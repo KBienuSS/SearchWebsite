@@ -1,5 +1,3 @@
-const Ad = require('../models/ad.model');
-
 const isOwner = async (req, res, next) => {
   try {
     const ad = await Ad.findById(req.params.id);
@@ -7,6 +5,10 @@ const isOwner = async (req, res, next) => {
     if (!ad) {
       return res.status(404).json({ error: 'Ad not found' });
     }
+
+    console.log('ad.seller:', ad.seller.toString());
+    console.log('session user id:', req.session.user.id);
+    console.log('equal?', ad.seller.toString() === req.session.user.id);
 
     if (ad.seller.toString() !== req.session.user.id) {
       return res.status(403).json({ error: 'You are not the owner of this ad' });

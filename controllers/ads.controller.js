@@ -1,4 +1,5 @@
-const Ad = require('../models/ad.model');
+const Ad = require('../models/Ad.model');
+const User = require('../models/User.model');
 const getImageFileType = require('../utils/getImageFileType');
 const fs = require('fs');
 const path = require('path');
@@ -13,9 +14,9 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const ad = await Ad.findById(req.params.id);
-    if(!ad) res.status(404).json({ error: 'Ad not found' });
-    else res.json(ad);
+    const ad = await Ad.findById(req.params.id).populate('seller', 'login avatar phone');
+    if (!ad) return res.status(404).json({ error: 'Ad not found' });
+    res.json(ad);
   } catch(err) {
     res.status(500).json({ message: err });
   }
@@ -23,44 +24,62 @@ exports.getById = async (req, res) => {
 
 exports.getByPhrase = async (req, res) => {
   try {
-    const ad = await Ad.find({ title: { $regex: req.params.safePhrase, $options: 'i' } });
+    const ads = await Ad.find({ title: { $regex: req.params.searchPhrase, $options: 'i' } });
     if (ads.length === 0) {
       return res.status(404).json({ error: 'Ad not found' });
     }
-    res.json(ad);
+    res.json(ads);
   } catch(err) {
     res.status(500).json({ message: err });
   }
 };
 
 exports.create = async (req, res) => {
-  const { title, content, date, image, price, location, seller } = req.body;
-  const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
-  const imageFileName = req.file.filename
-  if(title &&
-      typeof title === 'string' &&
-      content && 
+  try {
+    const { title, content, date, price, location, seller } = req.body;
+    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
+
+    const isValid =
+      title && typeof title === 'string' &&
+      content &&
       date &&
       req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType) &&
       price &&
       location &&
-      seller){
+      seller;
 
-    try {
-      const newAd = new Ad({ title, content, date, imageFileName , price, location, seller });
-      await newAd.save();
-      res.status(201).json(newAd);
-    } catch(err) {
-      fs.unlinkSync(path.join(__dirname, '..', 'public', 'uploads', req.file.filename));
-      res.status(500).json({ message: err });
+    if (!isValid) {
+      if (req.file) {
+        fs.unlinkSync(path.join(__dirname, '..', 'public', 'uploads', req.file.filename));
+      }
+      return res.status(400).json({ error: 'Missing required fields' });
     }
 
-  } else {
-    fs.unlinkSync(path.join(__dirname, '..', 'public', 'uploads', req.file.filename));
-    return res.status(400).json({ error: 'Missing required fields' });
+    const sellerUser = await User.findOne({ login: seller });
+    if (!sellerUser) {
+      fs.unlinkSync(path.join(__dirname, '..', 'public', 'uploads', req.file.filename));
+      return res.status(400).json({ error: 'Seller not found' });
+    }
+
+    const newAd = new Ad({
+      title,
+      content,
+      date,
+      image: req.file.filename,
+      price,
+      location,
+      seller: sellerUser._id
+    });
+
+    await newAd.save();
+    res.status(201).json(newAd);
+
+  } catch (err) {
+    if (req.file) {
+      fs.unlinkSync(path.join(__dirname, '..', 'public', 'uploads', req.file.filename));
+    }
+    res.status(500).json({ message: err.message });
   }
-
-
 };
 
 exports.update = async (req, res) => {
