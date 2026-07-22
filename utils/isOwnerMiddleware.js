@@ -1,3 +1,5 @@
+const Ad = require('../models/Ad.model');
+
 const isOwner = async (req, res, next) => {
   try {
     const ad = await Ad.findById(req.params.id);
