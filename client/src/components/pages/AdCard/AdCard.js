@@ -15,7 +15,7 @@ const AdCard = ({ ad }) => (
     <CardBody className="d-flex flex-column">
       <CardTitle tag="h5">{ad.title}</CardTitle>
       <CardText className="text-muted">{ad.location}</CardText>
-      <Link to={`/ads/${ad._id}`} className="mt-auto">
+      <Link to={`/ad/${ad._id}`} className="mt-auto">
         <Button color="primary" block>Read more</Button>
       </Link>
     </CardBody>
